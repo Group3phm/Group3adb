@@ -1,0 +1,22 @@
+{
+	"name": "DS_Order_Gold",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lsadlsgroup3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "part-00000-tid-3116106489187488398-2c9dab78-21f3-4e3b-a254-14a540d05256-2-1-c000.snappy.parquet",
+				"folderPath": "gold/orders_20221216.csv",
+				"fileSystem": "training"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

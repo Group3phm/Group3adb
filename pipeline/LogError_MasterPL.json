@@ -1,0 +1,48 @@
+{
+	"name": "LogError_MasterPL",
+	"properties": {
+		"activities": [
+			{
+				"name": "Log Error Master PL",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Shared_LogError",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"PipeLineName": {
+							"value": "@pipeline().parameters.PipeLineName",
+							"type": "Expression"
+						},
+						"FactoryName": {
+							"value": "@pipeline().parameters.FactoryName",
+							"type": "Expression"
+						},
+						"ErrorDetail": {
+							"value": "@pipeline().parameters.ErrorDetail",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"PipeLineName": {
+				"type": "string"
+			},
+			"FactoryName": {
+				"type": "string"
+			},
+			"ErrorDetail": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-12-16T14:18:11Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,9 @@
+{
+	"name": "Group3TrngDataFactory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d8d3e335-7250-4d9e-9287-b1f9f37d5fa8",
+		"tenantId": "a29d5a05-54fe-4cbb-9af7-3294f1b819dd"
+	}
+}

@@ -1,0 +1,109 @@
+{
+	"name": "Customers_Order_Master_PL_Adv_Gen2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Bronze to Silver Product PL",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Validate Files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Bronze_To_Silver_Product",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"LoadDate": {
+							"value": "@variables('LoadDate')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Validate Files",
+				"type": "Validation",
+				"dependsOn": [
+					{
+						"activity": "Set Load Date",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_Training",
+						"type": "DatasetReference"
+					},
+					"timeout": "0.12:00:00",
+					"sleep": 10
+				}
+			},
+			{
+				"name": "Set Load Date",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LoadDate",
+					"value": {
+						"value": "@string(utcNow())",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Execute Failed Log",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Bronze to Silver Product PL",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LogError_MasterPL",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"PipeLineName": {
+							"value": "@pipeline().Pipeline",
+							"type": "Expression"
+						},
+						"FactoryName": {
+							"value": "@pipeline().DataFactory",
+							"type": "Expression"
+						},
+						"ErrorDetail": {
+							"value": "@pipeline().RunId",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"variables": {
+			"LoadDate": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-12-16T14:18:11Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

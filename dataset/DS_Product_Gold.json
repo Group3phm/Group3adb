@@ -1,0 +1,22 @@
+{
+	"name": "DS_Product_Gold",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lsadlsgroup3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "part-00000-tid-8035458256584555286-1b6eb7c8-075f-4224-8230-30ab01244866-5-1-c000.snappy.parquet",
+				"folderPath": "gold/Product_20221216",
+				"fileSystem": "training"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
