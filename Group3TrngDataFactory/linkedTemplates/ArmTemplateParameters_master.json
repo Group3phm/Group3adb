@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "Group3TrngDataFactory"
+		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
+		"ls_synapsedw_connectionString": {
+			"value": ""
+		},
+		"lsadlsgroup3_accountKey": {
+			"value": ""
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"value": "1216-104932-t72chzlz"
+		},
+		"lsadlsgroup3_properties_typeProperties_url": {
+			"value": "https://group3adlsstorage.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
