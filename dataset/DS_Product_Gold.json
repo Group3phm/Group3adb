@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "part-00000-tid-4449257592015043601-c95c12e2-936b-4f18-834c-5a66e265f4a7-32-1-c000.snappy.parquet",
+				"fileName": "part-00000-tid-2915234581538962866-d111f9a1-c695-4519-abad-f8e6a3c4056b-42-1-c000.snappy.parquet",
 				"folderPath": "gold/Product_2022-12-17",
 				"fileSystem": "training"
 			},
