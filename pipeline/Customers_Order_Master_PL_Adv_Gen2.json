@@ -71,6 +71,12 @@
 						"dependencyConditions": [
 							"Failed"
 						]
+					},
+					{
+						"activity": "Execute Bronze to Silver Order PL",
+						"dependencyConditions": [
+							"Failed"
+						]
 					}
 				],
 				"userProperties": [],
@@ -91,6 +97,32 @@
 						},
 						"ErrorDetail": {
 							"value": "@pipeline().RunId",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Execute Bronze to Silver Order PL",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Validate Files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Bronze_To_Silver_Order",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"LoadDate": {
+							"value": "@variables('LoadDate')",
 							"type": "Expression"
 						}
 					}
