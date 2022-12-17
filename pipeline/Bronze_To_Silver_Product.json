@@ -179,7 +179,7 @@
 						"type": "ParquetSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
-							"fileListPath": "training/gold/Product_2022-12-17",
+							"recursive": true,
 							"enablePartitionDiscovery": false
 						}
 					},
