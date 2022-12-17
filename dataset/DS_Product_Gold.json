@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "*.parquet",
 				"folderPath": "gold/Product_2022-12-17",
 				"fileSystem": "training"
 			},
