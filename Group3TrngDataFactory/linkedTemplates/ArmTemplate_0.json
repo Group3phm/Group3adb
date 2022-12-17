@@ -270,8 +270,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "part-00000-tid-8035458256584555286-1b6eb7c8-075f-4224-8230-30ab01244866-5-1-c000.snappy.parquet",
-						"folderPath": "gold/Product_20221216",
+						"fileName": "*.parquet",
+						"folderPath": "gold/Product_2022-12-17",
 						"fileSystem": "training"
 					},
 					"compressionCodec": "snappy"
@@ -1100,6 +1100,12 @@
 								"dependencyConditions": [
 									"Failed"
 								]
+							},
+							{
+								"activity": "Execute Bronze to Silver Order PL",
+								"dependencyConditions": [
+									"Failed"
+								]
 							}
 						],
 						"userProperties": [],
@@ -1124,6 +1130,32 @@
 								}
 							}
 						}
+					},
+					{
+						"name": "Execute Bronze to Silver Order PL",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Validate Files",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Bronze_To_Silver_Order",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"LoadDate": {
+									"value": "@variables('LoadDate')",
+									"type": "Expression"
+								}
+							}
+						}
 					}
 				],
 				"policy": {
@@ -1141,7 +1173,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/Bronze_To_Silver_Product')]",
 				"[concat(variables('factoryId'), '/datasets/DS_Training')]",
-				"[concat(variables('factoryId'), '/pipelines/LogError_MasterPL')]"
+				"[concat(variables('factoryId'), '/pipelines/LogError_MasterPL')]",
+				"[concat(variables('factoryId'), '/pipelines/Bronze_To_Silver_Order')]"
 			]
 		}
 	]

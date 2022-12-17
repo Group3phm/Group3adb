@@ -617,126 +617,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Customers_Order_Master_PL_Adv_Gen2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Execute Bronze to Silver Product PL",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "Validate Files",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "Bronze_To_Silver_Product",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {
-								"LoadDate": {
-									"value": "@variables('LoadDate')",
-									"type": "Expression"
-								}
-							}
-						}
-					},
-					{
-						"name": "Validate Files",
-						"type": "Validation",
-						"dependsOn": [
-							{
-								"activity": "Set Load Date",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "DS_Training",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"timeout": "0.12:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "Set Load Date",
-						"type": "SetVariable",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "LoadDate",
-							"value": {
-								"value": "@string(utcNow())",
-								"type": "Expression"
-							}
-						}
-					},
-					{
-						"name": "Execute Failed Log",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "Execute Bronze to Silver Product PL",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "LogError_MasterPL",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {
-								"PipeLineName": {
-									"value": "@pipeline().Pipeline",
-									"type": "Expression"
-								},
-								"FactoryName": {
-									"value": "@pipeline().DataFactory",
-									"type": "Expression"
-								},
-								"ErrorDetail": {
-									"value": "@pipeline().RunId",
-									"type": "Expression"
-								}
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"variables": {
-					"LoadDate": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-12-16T14:18:11Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Bronze_To_Silver_Product')]",
-				"[concat(variables('factoryId'), '/datasets/DS_Training')]",
-				"[concat(variables('factoryId'), '/pipelines/LogError_MasterPL')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/LogError_MasterPL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -982,8 +862,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "part-00000-tid-8035458256584555286-1b6eb7c8-075f-4224-8230-30ab01244866-5-1-c000.snappy.parquet",
-						"folderPath": "gold/Product_20221216",
+						"fileName": "*.parquet",
+						"folderPath": "gold/Product_2022-12-17",
 						"fileSystem": "training"
 					},
 					"compressionCodec": "snappy"
@@ -1143,6 +1023,159 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Customers_Order_Master_PL_Adv_Gen2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute Bronze to Silver Product PL",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Validate Files",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Bronze_To_Silver_Product",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"LoadDate": {
+									"value": "@variables('LoadDate')",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "Validate Files",
+						"type": "Validation",
+						"dependsOn": [
+							{
+								"activity": "Set Load Date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DS_Training",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"timeout": "0.12:00:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "Set Load Date",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "LoadDate",
+							"value": {
+								"value": "@string(utcNow())",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Execute Failed Log",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Execute Bronze to Silver Product PL",
+								"dependencyConditions": [
+									"Failed"
+								]
+							},
+							{
+								"activity": "Execute Bronze to Silver Order PL",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "LogError_MasterPL",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"PipeLineName": {
+									"value": "@pipeline().Pipeline",
+									"type": "Expression"
+								},
+								"FactoryName": {
+									"value": "@pipeline().DataFactory",
+									"type": "Expression"
+								},
+								"ErrorDetail": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "Execute Bronze to Silver Order PL",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Validate Files",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Bronze_To_Silver_Order",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"LoadDate": {
+									"value": "@variables('LoadDate')",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"LoadDate": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-12-16T14:18:11Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Bronze_To_Silver_Product')]",
+				"[concat(variables('factoryId'), '/datasets/DS_Training')]",
+				"[concat(variables('factoryId'), '/pipelines/LogError_MasterPL')]",
+				"[concat(variables('factoryId'), '/pipelines/Bronze_To_Silver_Order')]"
+			]
 		}
 	]
 }
