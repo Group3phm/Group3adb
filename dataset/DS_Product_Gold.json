@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "part-00000-tid-8035458256584555286-1b6eb7c8-075f-4224-8230-30ab01244866-5-1-c000.snappy.parquet",
-				"folderPath": "gold/Product_20221216",
+				"fileName": "part-00000-tid-4449257592015043601-c95c12e2-936b-4f18-834c-5a66e265f4a7-32-1-c000.snappy.parquet",
+				"folderPath": "gold/Product_2022-12-17",
 				"fileSystem": "training"
 			},
 			"compressionCodec": "snappy"
