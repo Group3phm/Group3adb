@@ -188,7 +188,7 @@
 					},
 					"sink": {
 						"type": "SqlDWSink",
-						"preCopyScript": "Truncate table dbo.Product",
+						"preCopyScript": "Truncate table [dbo].[Product]",
 						"writeBehavior": "Insert",
 						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
