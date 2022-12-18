@@ -5,12 +5,20 @@
 			"referenceName": "lsadlsgroup3",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"loaddate": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "gold/Orders_2022-12-18",
+				"folderPath": {
+					"value": "@concat('gold/Orders_',dataset().loaddate)",
+					"type": "Expression"
+				},
 				"fileSystem": "training"
 			},
 			"compressionCodec": "snappy"
