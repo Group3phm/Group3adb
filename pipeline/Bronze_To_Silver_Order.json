@@ -188,8 +188,9 @@
 					},
 					"sink": {
 						"type": "SqlDWSink",
-						"preCopyScript": "Truncate table dbo.Order",
+						"preCopyScript": "Truncate table dbo.order",
 						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
@@ -197,50 +198,30 @@
 						"type": "TabularTranslator",
 						"mappings": [
 							{
-								"source": {
-									"name": "PRODUCT_ID",
-									"type": "String"
-								},
 								"sink": {
 									"name": "PRODUCT_ID",
 									"type": "Int32"
 								}
 							},
 							{
-								"source": {
-									"name": "PRODUCT_NAME",
-									"type": "String"
-								},
 								"sink": {
 									"name": "PRODUCT_NAME",
 									"type": "String"
 								}
 							},
 							{
-								"source": {
-									"name": "UNIT_PRICE",
-									"type": "String"
-								},
 								"sink": {
 									"name": "UNIT_PRICE",
 									"type": "String"
 								}
 							},
 							{
-								"source": {
-									"name": "Status",
-									"type": "String"
-								},
 								"sink": {
 									"name": "Status",
 									"type": "String"
 								}
 							},
 							{
-								"source": {
-									"name": "ProductCategory",
-									"type": "String"
-								},
 								"sink": {
 									"name": "ProductCategory",
 									"type": "String"
@@ -263,7 +244,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_product_dw",
+						"referenceName": "ds_order_dw",
 						"type": "DatasetReference"
 					}
 				]
