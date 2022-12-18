@@ -9,8 +9,8 @@
 		"type": "AzureSqlDWTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "[dbo]",
-			"table": "[Product]"
+			"schema": "dbo",
+			"table": "Product"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
