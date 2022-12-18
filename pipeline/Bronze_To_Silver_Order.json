@@ -179,13 +179,18 @@
 						"type": "ParquetSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
-							"fileListPath": "training/gold/Orders_2022-12-17",
+							"fileListPath": {
+								"value": "@concat('training/gold/Orders_',pipeline().parameters.LoadDate)",
+								"type": "Expression"
+							},
 							"enablePartitionDiscovery": false
 						}
 					},
 					"sink": {
 						"type": "SqlDWSink",
-						"writeBehavior": "Insert"
+						"preCopyScript": "Truncate table dbo.Order",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
@@ -246,8 +251,14 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_Product_Gold",
-						"type": "DatasetReference"
+						"referenceName": "DS_Order_Gold",
+						"type": "DatasetReference",
+						"parameters": {
+							"loaddate": {
+								"value": "@pipeline().parameters.LoadDate",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
