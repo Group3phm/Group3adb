@@ -15,6 +15,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "*.parquet",
 				"folderPath": {
 					"value": "@concat('gold/Product_',dataset().loaddate)",
 					"type": "Expression"
