@@ -188,7 +188,7 @@
 					},
 					"sink": {
 						"type": "SqlDWSink",
-						"preCopyScript": "Truncate table dbo.order",
+						"preCopyScript": "Truncate table [dbo].[Order]",
 						"writeBehavior": "Insert",
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
