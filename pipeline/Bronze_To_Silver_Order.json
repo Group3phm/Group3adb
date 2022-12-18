@@ -198,32 +198,92 @@
 						"type": "TabularTranslator",
 						"mappings": [
 							{
+								"source": {
+									"name": "ORDER_ID",
+									"type": "String"
+								},
 								"sink": {
-									"name": "PRODUCT_ID",
+									"name": "ORDER_ID",
 									"type": "Int32"
 								}
 							},
 							{
+								"source": {
+									"name": "ORDER_DATETIME",
+									"type": "String"
+								},
 								"sink": {
-									"name": "PRODUCT_NAME",
+									"name": "ORDER_DATETIME",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "CUSTOMERID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CUSTOMER_ID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ORDER_STATUS",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"name": "STOREID",
+									"type": "String"
+								},
 								"sink": {
-									"name": "UNIT_PRICE",
+									"name": "STORE_ID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderTotal",
+									"type": "String"
+								},
+								"sink": {
+									"name": "OrderTotal",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"name": "OrderDiscount",
+									"type": "String"
+								},
 								"sink": {
-									"name": "Status",
+									"name": "OrderDiscount",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"name": "OrderFinalAmount",
+									"type": "String"
+								},
 								"sink": {
-									"name": "ProductCategory",
+									"name": "OrderFinalAmount",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PaymentMode",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PaymentMode",
 									"type": "String"
 								}
 							}
