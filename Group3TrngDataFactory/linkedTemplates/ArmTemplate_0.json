@@ -270,7 +270,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "*.parquet",
 						"folderPath": "gold/Product_2022-12-17",
 						"fileSystem": "training"
 					},
@@ -569,14 +568,13 @@
 								"type": "ParquetSource",
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
+									"fileListPath": "training/gold/Orders_2022-12-17",
 									"enablePartitionDiscovery": false
 								}
 							},
 							"sink": {
 								"type": "SqlDWSink",
-								"allowCopyCommand": true,
-								"copyCommandSettings": {}
+								"writeBehavior": "Insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -861,14 +859,13 @@
 								"type": "ParquetSource",
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
+									"fileListPath": "training/gold/Product_2022-12-17",
 									"enablePartitionDiscovery": false
 								}
 							},
 							"sink": {
 								"type": "SqlDWSink",
-								"allowCopyCommand": true,
-								"copyCommandSettings": {}
+								"writeBehavior": "Insert"
 							},
 							"enableStaging": false,
 							"translator": {
