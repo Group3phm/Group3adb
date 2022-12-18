@@ -579,17 +579,17 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "PRODUCT_ID",
+											"name": "PRODUCTID",
 											"type": "String"
 										},
 										"sink": {
 											"name": "PRODUCT_ID",
-											"type": "Int32"
+											"type": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "PRODUCT_NAME",
+											"name": "PRODUCTNAME",
 											"type": "String"
 										},
 										"sink": {
