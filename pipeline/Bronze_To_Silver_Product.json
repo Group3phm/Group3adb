@@ -179,13 +179,13 @@
 						"type": "ParquetSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
+							"fileListPath": "training/gold/Product_2022-12-17",
 							"enablePartitionDiscovery": false
 						}
 					},
 					"sink": {
 						"type": "SqlDWSink",
-						"allowCopyCommand": true
+						"writeBehavior": "Insert"
 					},
 					"enableStaging": false,
 					"translator": {
