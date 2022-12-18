@@ -181,13 +181,20 @@
 					"referenceName": "lsadlsgroup3",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"loaddate": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "Parquet",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "part-00000-tid-3116106489187488398-2c9dab78-21f3-4e3b-a254-14a540d05256-2-1-c000.snappy.parquet",
-						"folderPath": "gold/orders_20221216.csv",
+						"folderPath": {
+							"value": "@concat('gold/Orders_',dataset().loaddate)",
+							"type": "Expression"
+						},
 						"fileSystem": "training"
 					},
 					"compressionCodec": "snappy"
@@ -265,12 +272,20 @@
 					"referenceName": "lsadlsgroup3",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"loaddate": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "Parquet",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "gold/Product_2022-12-17",
+						"folderPath": {
+							"value": "@concat('gold/Product_',dataset().loaddate)",
+							"type": "Expression"
+						},
 						"fileSystem": "training"
 					},
 					"compressionCodec": "snappy"
@@ -568,13 +583,19 @@
 								"type": "ParquetSource",
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
-									"fileListPath": "training/gold/Orders_2022-12-17",
+									"fileListPath": {
+										"value": "@concat('training/gold/Orders_',pipeline().parameters.LoadDate)",
+										"type": "Expression"
+									},
 									"enablePartitionDiscovery": false
 								}
 							},
 							"sink": {
 								"type": "SqlDWSink",
-								"writeBehavior": "Insert"
+								"preCopyScript": "Truncate table [dbo].[Order]",
+								"writeBehavior": "Insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
 							"translator": {
@@ -582,51 +603,91 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "PRODUCT_ID",
+											"name": "ORDER_ID",
 											"type": "String"
 										},
 										"sink": {
-											"name": "PRODUCT_ID",
+											"name": "ORDER_ID",
 											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "PRODUCT_NAME",
+											"name": "ORDER_DATETIME",
 											"type": "String"
 										},
 										"sink": {
-											"name": "PRODUCT_NAME",
+											"name": "ORDER_DATETIME",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "CUSTOMERID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CUSTOMER_ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ORDER_STATUS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ORDER_STATUS",
 											"type": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "UNIT_PRICE",
+											"name": "STOREID",
 											"type": "String"
 										},
 										"sink": {
-											"name": "UNIT_PRICE",
+											"name": "STORE_ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OrderTotal",
+											"type": "String"
+										},
+										"sink": {
+											"name": "OrderTotal",
 											"type": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "Status",
+											"name": "OrderDiscount",
 											"type": "String"
 										},
 										"sink": {
-											"name": "Status",
+											"name": "OrderDiscount",
 											"type": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "ProductCategory",
+											"name": "OrderFinalAmount",
 											"type": "String"
 										},
 										"sink": {
-											"name": "ProductCategory",
+											"name": "OrderFinalAmount",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PaymentMode",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PaymentMode",
 											"type": "String"
 										}
 									}
@@ -635,14 +696,19 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "DS_Product_Gold",
+								"referenceName": "DS_Order_Gold",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"loaddate": {
+										"value": "@pipeline().parameters.LoadDate",
+										"type": "Expression"
+									}
+								}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "ds_product_dw",
+								"referenceName": "ds_order_dw",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -670,8 +736,8 @@
 				"[concat(variables('factoryId'), '/datasets/DS_Product')]",
 				"[concat(variables('factoryId'), '/datasets/DS_Product_Silver')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricks1')]",
-				"[concat(variables('factoryId'), '/datasets/DS_Product_Gold')]",
-				"[concat(variables('factoryId'), '/datasets/ds_product_dw')]"
+				"[concat(variables('factoryId'), '/datasets/DS_Order_Gold')]",
+				"[concat(variables('factoryId'), '/datasets/ds_order_dw')]"
 			]
 		},
 		{
@@ -859,13 +925,19 @@
 								"type": "ParquetSource",
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
-									"fileListPath": "training/gold/Product_2022-12-17",
+									"fileListPath": {
+										"value": "@concat('training/gold/Product_',pipeline().parameters.LoadDate)",
+										"type": "Expression"
+									},
 									"enablePartitionDiscovery": false
 								}
 							},
 							"sink": {
 								"type": "SqlDWSink",
-								"writeBehavior": "Insert"
+								"preCopyScript": "Truncate table [dbo].[Product]",
+								"writeBehavior": "Insert",
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
 							"translator": {
@@ -928,7 +1000,12 @@
 							{
 								"referenceName": "DS_Product_Gold",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"loaddate": {
+										"value": "@pipeline().parameters.LoadDate",
+										"type": "Expression"
+									}
+								}
 							}
 						],
 						"outputs": [
