@@ -254,6 +254,16 @@
 									"name": "ProductCategory",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"name": "LoadDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "LoadDate",
+									"type": "String"
+								}
 							}
 						]
 					}
