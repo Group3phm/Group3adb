@@ -379,6 +379,16 @@
 											"name": "PaymentMode",
 											"type": "String"
 										}
+									},
+									{
+										"source": {
+											"name": "LoadDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "LoadDate",
+											"type": "String"
+										}
 									}
 								]
 							}
@@ -686,6 +696,16 @@
 										},
 										"sink": {
 											"name": "ProductCategory",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LoadDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "LoadDate",
 											"type": "String"
 										}
 									}
