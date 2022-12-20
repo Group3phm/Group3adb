@@ -233,10 +233,12 @@
 						"type": "ParquetSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
-							"fileListPath": {
-								"value": "@concat('training/gold/Orders_',pipeline().parameters.LoadDate)",
+							"recursive": true,
+							"wildcardFolderPath": {
+								"value": "@concat('gold/Orders_',pipeline().parameters.LoadDate)",
 								"type": "Expression"
 							},
+							"wildcardFileName": "*.parquet",
 							"enablePartitionDiscovery": false
 						}
 					},
