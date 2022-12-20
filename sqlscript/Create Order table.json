@@ -1,0 +1,17 @@
+{
+	"name": "Create Order table",
+	"properties": {
+		"content": {
+			"query": "DROP TABLE [dbo].[Order]\nGO\n\nSET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n\nCREATE TABLE [dbo].[Order]\n( \n\t[ORDER_ID] [varchar](500)  NULL,\n\t[ORDER_DATETIME] [varchar](500)  NULL,\n\t[CUSTOMER_ID] [varchar](500)  NULL,\n\t[ORDER_STATUS] [varchar](500)  NULL,\n\t[STORE_ID] [varchar](500)  NULL,\n\t[OrderTotal] [varchar](500)  NULL,\n\t[OrderDiscount] [varchar](500)  NULL,\n\t[OrderFinalAmount] [varchar](500)  NULL,\n\t[PaymentMode] [varchar](500)  NULL,\n\t[LoadDate] [varchar](500)  NULL\n)\nWITH\n(\n\tDISTRIBUTION = ROUND_ROBIN,\n\tCLUSTERED COLUMNSTORE INDEX\n)\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "group3sql",
+				"poolName": "group3sql"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
