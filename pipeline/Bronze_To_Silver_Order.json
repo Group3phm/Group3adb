@@ -244,6 +244,7 @@
 					},
 					"sink": {
 						"type": "SqlDWSink",
+						"preCopyScript": "truncate table [dbo].[Order]",
 						"writeBehavior": "Insert",
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
