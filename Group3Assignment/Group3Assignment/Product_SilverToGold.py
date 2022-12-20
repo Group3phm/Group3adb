@@ -1,4 +1,9 @@
 # Databricks notebook source
+dbutils.widgets.text("loaddate", "")
+loaddate = dbutils.widgets.get("loaddate")
+
+# COMMAND ----------
+
 import os
 import json
 from pyspark import SparkConf,SparkContext
@@ -8,7 +13,7 @@ import pyspark.sql.functions as f
 
 # COMMAND ----------
 
-df = spark.read.format("csv").load("/mnt/tmpadls/silver/Product_20221216.csv", header = True)
+df = spark.read.format("csv").load("/mnt/tmpadls/silver/Product_{0}.csv".format(loaddate), header = True)
 display(df)
 
 # COMMAND ----------
