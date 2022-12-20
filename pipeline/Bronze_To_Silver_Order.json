@@ -198,7 +198,7 @@
 				"typeProperties": {
 					"notebookPath": "/Group3Assignment/Order_SilverToGold",
 					"baseParameters": {
-						"LoadDate": {
+						"loaddate": {
 							"value": "@pipeline().parameters.LoadDate",
 							"type": "Expression"
 						}
