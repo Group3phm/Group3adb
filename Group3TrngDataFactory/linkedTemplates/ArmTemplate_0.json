@@ -614,7 +614,7 @@
 						"typeProperties": {
 							"notebookPath": "/Group3Assignment/Order_SilverToGold",
 							"baseParameters": {
-								"LoadDate": {
+								"loaddate": {
 									"value": "@pipeline().parameters.LoadDate",
 									"type": "Expression"
 								}
@@ -960,7 +960,7 @@
 						"typeProperties": {
 							"notebookPath": "/Group3Assignment/Product_SilverToGold",
 							"baseParameters": {
-								"LoadDate": {
+								"loaddate": {
 									"value": "@pipeline().parameters.LoadDate",
 									"type": "Expression"
 								}
