@@ -5,13 +5,18 @@
 			"referenceName": "lsadlsgroup3",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"loaddate": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "Product_20221216.csv",
+					"value": "@concat('Product_',dataset().loaddate,'.csv')",
 					"type": "Expression"
 				},
 				"folderPath": "silver",
