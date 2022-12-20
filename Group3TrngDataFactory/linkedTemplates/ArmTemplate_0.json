@@ -649,15 +649,18 @@
 								"type": "ParquetSource",
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
-									"fileListPath": {
-										"value": "@concat('training/gold/Orders_',pipeline().parameters.LoadDate)",
+									"recursive": true,
+									"wildcardFolderPath": {
+										"value": "@concat('gold/Orders_',pipeline().parameters.LoadDate)",
 										"type": "Expression"
 									},
+									"wildcardFileName": "*.parquet",
 									"enablePartitionDiscovery": false
 								}
 							},
 							"sink": {
 								"type": "SqlDWSink",
+								"preCopyScript": "truncate table [dbo].[Order]",
 								"writeBehavior": "Insert",
 								"sqlWriterUseTableLock": false,
 								"disableMetricsCollection": false
@@ -673,7 +676,7 @@
 										},
 										"sink": {
 											"name": "ORDER_ID",
-											"type": "Int32"
+											"type": "String"
 										}
 									},
 									{
@@ -683,7 +686,7 @@
 										},
 										"sink": {
 											"name": "ORDER_DATETIME",
-											"type": "DateTime"
+											"type": "String"
 										}
 									},
 									{
@@ -693,7 +696,7 @@
 										},
 										"sink": {
 											"name": "CUSTOMER_ID",
-											"type": "Int32"
+											"type": "String"
 										}
 									},
 									{
@@ -713,7 +716,7 @@
 										},
 										"sink": {
 											"name": "STORE_ID",
-											"type": "Int32"
+											"type": "String"
 										}
 									},
 									{
@@ -995,15 +998,18 @@
 								"type": "ParquetSource",
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
-									"fileListPath": {
-										"value": "@concat('training/gold/Product_',pipeline().parameters.LoadDate)",
+									"recursive": true,
+									"wildcardFolderPath": {
+										"value": "@concat('gold/Product_',pipeline().parameters.LoadDate)",
 										"type": "Expression"
 									},
+									"wildcardFileName": "*.parquet",
 									"enablePartitionDiscovery": false
 								}
 							},
 							"sink": {
 								"type": "SqlDWSink",
+								"preCopyScript": "truncate table [dbo].[Product]",
 								"writeBehavior": "Insert",
 								"tableOption": "autoCreate",
 								"disableMetricsCollection": false
