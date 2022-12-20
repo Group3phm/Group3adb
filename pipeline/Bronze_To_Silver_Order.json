@@ -43,60 +43,108 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "PRODUCT_ID",
+									"name": "ORDER_ID",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "PRODUCT_ID",
+									"name": "ORDER_ID",
 									"type": "String",
 									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "PRODUCT_NAME",
+									"name": "ORDER_DATETIME",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "PRODUCT_NAME",
+									"name": "ORDER_DATETIME",
 									"type": "String",
 									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "UNIT_PRICE",
+									"name": "CUSTOMER_ID",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "UNIT_PRICE",
+									"name": "CUSTOMER_ID",
 									"type": "String",
 									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "Status",
+									"name": "ORDER_STATUS",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Status",
+									"name": "ORDER_STATUS",
 									"type": "String",
 									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "ProductCategory",
+									"name": "STORE_ID",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "ProductCategory",
+									"name": "STORE_ID",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderTotal",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "OrderTotal",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderDiscount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "OrderDiscount",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderFinalAmount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "OrderFinalAmount",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PaymentMode",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PaymentMode",
 									"type": "String",
 									"physicalType": "String"
 								}
@@ -111,14 +159,20 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_Product",
+						"referenceName": "DS_Order",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_Product_Silver",
-						"type": "DatasetReference"
+						"referenceName": "DS_Order_Silver",
+						"type": "DatasetReference",
+						"parameters": {
+							"loaddate": {
+								"value": "@pipeline().parameters.LoadDate",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			},
