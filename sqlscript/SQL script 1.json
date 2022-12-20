@@ -2,7 +2,7 @@
 	"name": "SQL script 1",
 	"properties": {
 		"content": {
-			"query": "CREATE TABLE [dbo].[Product]\n(\n    PRODUCT_ID int NOT NULL,\n    PRODUCT_NAME VARCHAR(500) NULL,\n    UNIT_PRICE VARCHAR(100) NULL,\n    Status VARCHAR(100) NULL,\n    ProductCategory VARCHAR(100) NULL\n)\n\n",
+			"query": "select count(1) from [dbo].[Order]\n--select count(1) from [dbo].[Product]",
 			"metadata": {
 				"language": "sql"
 			},
