@@ -1,0 +1,393 @@
+{
+	"name": "Bronze_To_Silver_Order",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy Order",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ORDER_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ORDER_ID",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_DATETIME",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ORDER_DATETIME",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CUSTOMER_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "CUSTOMER_ID",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_STATUS",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ORDER_STATUS",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "STORE_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "STORE_ID",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderTotal",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "OrderTotal",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderDiscount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "OrderDiscount",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderFinalAmount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "OrderFinalAmount",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PaymentMode",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PaymentMode",
+									"type": "String",
+									"physicalType": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_Order",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_Order_Silver",
+						"type": "DatasetReference",
+						"parameters": {
+							"loaddate": {
+								"value": "@pipeline().parameters.LoadDate",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Order silver to gold",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Copy Order",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Group3Assignment/Order_SilverToGold",
+					"baseParameters": {
+						"loaddate": {
+							"value": "@pipeline().parameters.LoadDate",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks1",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Order gold to DW",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Order silver to gold",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": {
+								"value": "@concat('gold/Orders_',pipeline().parameters.LoadDate)",
+								"type": "Expression"
+							},
+							"wildcardFileName": "*.parquet",
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "truncate table [dbo].[Order]",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ORDER_ID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ORDER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_DATETIME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ORDER_DATETIME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CUSTOMERID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CUSTOMER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDER_STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ORDER_STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "STOREID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "STORE_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderTotal",
+									"type": "String"
+								},
+								"sink": {
+									"name": "OrderTotal",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderDiscount",
+									"type": "String"
+								},
+								"sink": {
+									"name": "OrderDiscount",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderFinalAmount",
+									"type": "String"
+								},
+								"sink": {
+									"name": "OrderFinalAmount",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PaymentMode",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PaymentMode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "LoadDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "LoadDate",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_Order_Gold",
+						"type": "DatasetReference",
+						"parameters": {
+							"loaddate": {
+								"value": "@pipeline().parameters.LoadDate",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_order_dw",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"LoadDate": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"LoadDate": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-12-16T14:21:33Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,17 @@
+{
+	"name": "ds_order_dw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_synapsedw",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Order"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

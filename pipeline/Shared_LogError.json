@@ -1,0 +1,55 @@
+{
+	"name": "Shared_LogError",
+	"properties": {
+		"activities": [
+			{
+				"name": "Log Erorr",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Group3Assignment/Shared_LogError",
+					"baseParameters": {
+						"PipeLineName": {
+							"value": "@pipeline().parameters.PipeLineName",
+							"type": "Expression"
+						},
+						"FactoryName": {
+							"value": "@pipeline().parameters.FactoryName",
+							"type": "Expression"
+						},
+						"ErrorDetail": {
+							"value": "@pipeline().parameters.ErrorDetail",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks1",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"PipeLineName": {
+				"type": "string"
+			},
+			"FactoryName": {
+				"type": "string"
+			},
+			"ErrorDetail": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-12-16T14:18:11Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
