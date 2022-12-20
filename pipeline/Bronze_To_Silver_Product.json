@@ -185,15 +185,18 @@
 						"type": "ParquetSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
-							"fileListPath": {
-								"value": "@concat('training/gold/Product_',pipeline().parameters.LoadDate)",
+							"recursive": true,
+							"wildcardFolderPath": {
+								"value": "@concat('gold/Product_',pipeline().parameters.LoadDate)",
 								"type": "Expression"
 							},
+							"wildcardFileName": "*.parquet",
 							"enablePartitionDiscovery": false
 						}
 					},
 					"sink": {
 						"type": "SqlDWSink",
+						"preCopyScript": "truncate table [dbo].[Product]",
 						"writeBehavior": "Insert",
 						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
