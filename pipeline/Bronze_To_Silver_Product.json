@@ -118,7 +118,13 @@
 				"outputs": [
 					{
 						"referenceName": "DS_Product_Silver",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"loaddate": {
+								"value": "@pipeline().parameters.LoadDate",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			},
