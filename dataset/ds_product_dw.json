@@ -1,0 +1,17 @@
+{
+	"name": "ds_product_dw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_synapsedw",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Product"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
