@@ -30,8 +30,8 @@ df=df.withColumnRenamed('PRODUCT_ID','PRODUCTID').withColumnRenamed('PRODUCT_NAM
 # COMMAND ----------
 
 # Add New Columns 
-df2 = df.withColumn("LoadDate", f.current_date())
-display(df2)
+df = df.withColumn("LoadDate", f.current_date())
+display(df)
 
 # COMMAND ----------
 
