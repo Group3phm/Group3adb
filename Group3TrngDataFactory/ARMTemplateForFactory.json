@@ -79,60 +79,108 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "PRODUCT_ID",
+											"name": "ORDER_ID",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "PRODUCT_ID",
+											"name": "ORDER_ID",
 											"type": "String",
 											"physicalType": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "PRODUCT_NAME",
+											"name": "ORDER_DATETIME",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "PRODUCT_NAME",
+											"name": "ORDER_DATETIME",
 											"type": "String",
 											"physicalType": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "UNIT_PRICE",
+											"name": "CUSTOMER_ID",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "UNIT_PRICE",
+											"name": "CUSTOMER_ID",
 											"type": "String",
 											"physicalType": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "Status",
+											"name": "ORDER_STATUS",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Status",
+											"name": "ORDER_STATUS",
 											"type": "String",
 											"physicalType": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "ProductCategory",
+											"name": "STORE_ID",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "ProductCategory",
+											"name": "STORE_ID",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OrderTotal",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OrderTotal",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OrderDiscount",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OrderDiscount",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OrderFinalAmount",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OrderFinalAmount",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PaymentMode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PaymentMode",
 											"type": "String",
 											"physicalType": "String"
 										}
@@ -147,16 +195,21 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "DS_Product",
+								"referenceName": "DS_Order",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DS_Product_Silver",
+								"referenceName": "DS_Order_Silver",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"loaddate": {
+										"value": "@pipeline().parameters.LoadDate",
+										"type": "Expression"
+									}
+								}
 							}
 						]
 					},
@@ -226,7 +279,6 @@
 							},
 							"sink": {
 								"type": "SqlDWSink",
-								"preCopyScript": "Truncate table [dbo].[Order]",
 								"writeBehavior": "Insert",
 								"sqlWriterUseTableLock": false,
 								"disableMetricsCollection": false
@@ -367,8 +419,8 @@
 				"lastPublishTime": "2022-12-16T14:21:33Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_Product')]",
-				"[concat(variables('factoryId'), '/datasets/DS_Product_Silver')]",
+				"[concat(variables('factoryId'), '/datasets/DS_Order')]",
+				"[concat(variables('factoryId'), '/datasets/DS_Order_Silver')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricks1')]",
 				"[concat(variables('factoryId'), '/datasets/DS_Order_Gold')]",
 				"[concat(variables('factoryId'), '/datasets/ds_order_dw')]"
@@ -498,7 +550,12 @@
 							{
 								"referenceName": "DS_Product_Silver",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"loaddate": {
+										"value": "@pipeline().parameters.LoadDate",
+										"type": "Expression"
+									}
+								}
 							}
 						]
 					},
@@ -568,7 +625,6 @@
 							},
 							"sink": {
 								"type": "SqlDWSink",
-								"preCopyScript": "Truncate table [dbo].[Product]",
 								"writeBehavior": "Insert",
 								"tableOption": "autoCreate",
 								"disableMetricsCollection": false
@@ -1019,12 +1075,20 @@
 					"referenceName": "lsadlsgroup3",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"loaddate": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "orders_20221216.csv",
+						"fileName": {
+							"value": "@concat('orders_',dataset().loaddate,'.csv')",
+							"type": "Expression"
+						},
 						"folderPath": "silver",
 						"fileSystem": "training"
 					},
@@ -1110,13 +1174,18 @@
 					"referenceName": "lsadlsgroup3",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"loaddate": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "Product_20221216.csv",
+							"value": "@concat('Product_',dataset().loaddate,'.csv')",
 							"type": "Expression"
 						},
 						"folderPath": "silver",
