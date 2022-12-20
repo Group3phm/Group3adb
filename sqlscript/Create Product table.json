@@ -1,0 +1,17 @@
+{
+	"name": "Create Product table",
+	"properties": {
+		"content": {
+			"query": "DROP TABLE [dbo].[Product]\nGO\n\nSET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n\nCREATE TABLE [dbo].[Product]\n( \n\t[PRODUCT_ID] [varchar](500)  NULL,\n\t[PRODUCT_NAME] [varchar](500)  NULL,\n\t[UNIT_PRICE] [varchar](100)  NULL,\n\t[Status] [varchar](100)  NULL,\n\t[ProductCategory] [varchar](100)  NULL,\n\t[LoadDate] [varchar](500)  NULL\n)\nWITH\n(\n\tDISTRIBUTION = ROUND_ROBIN,\n\tCLUSTERED COLUMNSTORE INDEX\n)\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "group3sql",
+				"poolName": "group3sql"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
