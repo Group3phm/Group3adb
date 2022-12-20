@@ -260,7 +260,7 @@
 								},
 								"sink": {
 									"name": "ORDER_ID",
-									"type": "Int32"
+									"type": "String"
 								}
 							},
 							{
@@ -270,7 +270,7 @@
 								},
 								"sink": {
 									"name": "ORDER_DATETIME",
-									"type": "DateTime"
+									"type": "String"
 								}
 							},
 							{
@@ -280,7 +280,7 @@
 								},
 								"sink": {
 									"name": "CUSTOMER_ID",
-									"type": "Int32"
+									"type": "String"
 								}
 							},
 							{
@@ -300,7 +300,7 @@
 								},
 								"sink": {
 									"name": "STORE_ID",
-									"type": "Int32"
+									"type": "String"
 								}
 							},
 							{
